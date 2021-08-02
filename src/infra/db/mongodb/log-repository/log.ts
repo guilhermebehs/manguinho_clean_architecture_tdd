@@ -3,6 +3,6 @@ import { LogErrorRepository } from './../../../../data/protocols/log-error-repos
 export class LogMongoRepository implements LogErrorRepository {
   async logError (stack: string): Promise<void> {
     const errorCollection = await MongoHelper.getCollection('errors')
-    errorCollection.insertOne({ stack, date: new Date() })
+    await errorCollection.insertOne({ stack, date: new Date() })
   }
 }
