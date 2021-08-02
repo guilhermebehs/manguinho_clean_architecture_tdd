@@ -1,7 +1,7 @@
 {
   "name": "curso_manguinho",
   "version": "1.0.0",
-  "description": "",
+  "description": "NodeJS Rest Api using TDD, Clean Archtecture and Typescript",
   "main": "index.js",
   "scripts": {
     "start": "sucrase-node src/main/server.ts",
