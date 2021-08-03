@@ -2,7 +2,7 @@ import { EmailValidator } from './../../protocols/email-validator'
 import { badRequest, serverError, unauthorized } from './../../helpers/http-helper'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { Controller, HttpRequest, HttpResponse } from '../../protocols'
-import { Authentication } from '../../../data/protocols/authentication'
+import { Authentication } from '../../../domain/usecases/authentication'
 
 export class LoginController implements Controller {
   constructor (
