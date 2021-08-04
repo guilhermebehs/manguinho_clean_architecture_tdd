@@ -1,4 +1,4 @@
-import { created } from './../../helpers/http-helper'
+import { badRequest, created } from './../../helpers/http-helper'
 import { Authentication, HttpRequest } from './login-protocols'
 import { serverError, unauthorized } from '../../helpers/http-helper'
 import { LoginController } from './login'
@@ -42,6 +42,12 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Login Controller', () => {
+  test('Should return same error as Validation if validate fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    const httpRequest = await sut.handle(makeFakeRequest())
+    expect(httpRequest).toEqual(badRequest(new Error()))
+  })
   test('Should call Authentication with correct values', async () => {
     const { sut, authenticationStub } = makeSut()
     const authSpy = jest.spyOn(authenticationStub, 'auth')
