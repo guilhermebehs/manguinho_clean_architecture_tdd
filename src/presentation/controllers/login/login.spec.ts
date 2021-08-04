@@ -1,6 +1,6 @@
-import { badRequest, created } from './../../helpers/http-helper'
+import { badRequest, created, serverError, unauthorized } from '../../helpers/http/http-helper'
 import { Authentication, HttpRequest } from './login-protocols'
-import { serverError, unauthorized } from '../../helpers/http-helper'
+
 import { LoginController } from './login'
 import { Validation } from '../signup/signup-protocols'
 
