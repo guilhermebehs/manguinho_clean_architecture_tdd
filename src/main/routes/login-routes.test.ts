@@ -2,7 +2,7 @@ import request from 'supertest'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
 
-describe('SignUp Routes', () => {
+describe('Login Routes', () => {
   beforeAll(async () => {
     const mongoUrl = process.env.MONGO_URL ?? ''
     await MongoHelper.connect(mongoUrl)
@@ -14,15 +14,17 @@ describe('SignUp Routes', () => {
   afterAll(async () => {
     await MongoHelper.disconnect()
   })
-  test('Should return an account on success', async () => {
-    await request(app)
-      .post('/api/signup')
-      .send({
-        name: 'Guilherme Behs',
-        email: 'guilhermebehs2013@hotmail.com',
-        password: '123',
-        passwordConfirmation: '123'
-      })
-      .expect(201)
+  describe('POST /signup', () => {
+    test('Should return 200 on signup', async () => {
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'Guilherme Behs',
+          email: 'guilhermebehs2013@hotmail.com',
+          password: '123',
+          passwordConfirmation: '123'
+        })
+        .expect(201)
+    })
   })
 })
