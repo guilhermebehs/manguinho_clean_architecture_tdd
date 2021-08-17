@@ -5,6 +5,7 @@
     "outDir": "./dist",                          
     "esModuleInterop": true,                     
     "strictNullChecks": true,
+    "sourceMap": true
   },
   "include": [
     "src"
