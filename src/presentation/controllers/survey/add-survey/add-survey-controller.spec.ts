@@ -1,4 +1,4 @@
-import { badRequest, serverError } from './../../../helpers/http/http-helper'
+import { badRequest, noContent, serverError } from './../../../helpers/http/http-helper'
 import { HttpRequest, Validation, AddSurvey, AddSurveyModel } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 
@@ -71,5 +71,11 @@ describe('AddSurvey Controller', () => {
     jest.spyOn(addSurveyStub, 'add').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should return 204 on success', async () => {
+    const { sut } = makeSut()
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(noContent())
   })
 })
