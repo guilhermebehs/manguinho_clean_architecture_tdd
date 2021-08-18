@@ -21,7 +21,7 @@ describe('Survey Routes', () => {
       await request(app)
         .post('/api/surveys')
         .send({
-          question: 'Questin',
+          question: 'Question',
           answers: [
             {
               answer: 'Answer 1',
