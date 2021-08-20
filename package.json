@@ -56,6 +56,17 @@
     "nodemon": "^2.0.12",
     "validator": "^13.6.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint"
+    ]
+  },
   "engines": {
     "node": "15.x"
   }
