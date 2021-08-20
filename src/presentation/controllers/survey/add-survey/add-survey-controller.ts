@@ -13,11 +13,11 @@ export class AddSurveyController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { question, answers, date } = body
+      const { question, answers } = body
       await this.addSurvey.add({
         question,
         answers,
-        date
+        date: new Date()
       })
       return noContent()
     } catch (error) {
