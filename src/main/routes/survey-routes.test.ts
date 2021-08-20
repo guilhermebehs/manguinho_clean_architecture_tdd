@@ -16,13 +16,13 @@ const makeAccessToken = async (role?: string): Promise<string> => {
     role
   })
   const id = res.ops[0]._id
-  const token = sign({ id }, env.jwtSecret)
+  const accessToken = sign({ id }, env.jwtSecret)
   await accountCollection.updateOne({
     _id: id
   }, {
-    $set: { token }
+    $set: { accessToken }
   })
-  return token
+  return accessToken
 }
 
 describe('Survey Routes', () => {
@@ -58,11 +58,11 @@ describe('Survey Routes', () => {
         .expect(403)
     })
     test('Should return 204 on add survey with valid access token', async () => {
-      const token = await makeAccessToken('admin')
+      const accessToken = await makeAccessToken('admin')
 
       await request(app)
         .post('/api/surveys')
-        .set('x-access-token', token)
+        .set('x-access-token', accessToken)
         .send({
           question: 'Question',
           answers: [
@@ -85,7 +85,7 @@ describe('Survey Routes', () => {
         .expect(403)
     })
     test('Should return 200 on load surveys with valid access token', async () => {
-      const token = await makeAccessToken()
+      const accessToken = await makeAccessToken()
       await surveyCollection.insertMany([{
         question: 'any_question',
         answers: [
@@ -99,7 +99,7 @@ describe('Survey Routes', () => {
 
       await request(app)
         .get('/api/surveys')
-        .set('x-access-token', token)
+        .set('x-access-token', accessToken)
         .expect(200)
     })
     test('Should return 204 on load empty list with valid access token', async () => {
