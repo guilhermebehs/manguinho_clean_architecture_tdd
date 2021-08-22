@@ -11,7 +11,7 @@ import { MissingParamError, EmailInUseError } from '../../../errors'
 import { SignUpController } from './signup-controller'
 import { badRequest, created, forbidden, serverError } from '../../../helpers/http/http-helper'
 
-interface SutTypes{
+type SutTypes ={
   sut: SignUpController
   addAccountStub: AddAccount
   authenticationStub: Authentication

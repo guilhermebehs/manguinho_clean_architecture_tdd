@@ -3,7 +3,7 @@ import { AddAccountModel } from '@/domain/usecases/add-account'
 import { DbAddAccount } from './db-add-account'
 import { Hasher, AddAccountRepository, LoadAccountByEmailRepository } from './db-add-account-protocols'
 
-interface SutTypes{
+type SutTypes = {
   sut: DbAddAccount
   hasherStub: Hasher
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
