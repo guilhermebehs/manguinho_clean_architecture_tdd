@@ -4,7 +4,7 @@ import { Authentication, HttpRequest } from './login-controller-protocols'
 import { LoginController } from './login-controller'
 import { Validation } from '../signup/signup-controller-protocols'
 
-interface SutTypes{
+type SutTypes ={
   sut: LoginController
   authenticationStub: Authentication
   validationStub: Validation
