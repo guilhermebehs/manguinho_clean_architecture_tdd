@@ -1,4 +1,4 @@
-import { Authentication } from './../../../../domain/usecases/authentication'
+import { Authentication } from '@/domain/usecases/authentication'
 import { EmailInUseError } from '../../../errors/email-in-use-error'
 import { forbidden } from './../../../helpers/http/http-helper'
 import { Validation } from '../../../protocols/validation'
