@@ -13,6 +13,8 @@ services:
       image: node:15
       working_dir: /usr/app
       command: bash -c "npm i --only=prod && npm run debug"
+      environment: 
+        - MONGO_URL=mongodb://mongo:27017/clean-node-api
       restart: always
       volumes: 
         - ./dist/:/usr/app/dist/
@@ -22,4 +24,4 @@ services:
         - "9222:9222"
       links:
         - mongo
-      env_file: .env
+
