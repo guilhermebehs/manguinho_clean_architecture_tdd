@@ -1,4 +1,4 @@
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import {
   HttpRequest,
@@ -128,5 +128,10 @@ describe('SaveSurveyResult Controller', () => {
     jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(() => { throw new Error() })
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should return 200 on on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()))
   })
 })
