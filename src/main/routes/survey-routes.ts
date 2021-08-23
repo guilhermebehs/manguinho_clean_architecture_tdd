@@ -1,6 +1,6 @@
 import { auth } from './../middlewares/auth'
 import { adminAuth } from './../middlewares/admin-auth'
-import { makeLoadSurveysController } from './../factories/controllers/survey/load-surveys/add-survey-controller-factory'
+import { makeLoadSurveysController } from '../factories/controllers/survey/load-surveys/load-surveys-controller-factory'
 import { adaptRoute } from '../adapters/express-route-adapter'
 import { makeAddSurveyController } from '../factories/controllers/survey/add-survey/add-survey-controller-factory'
 import { Router } from 'express'
