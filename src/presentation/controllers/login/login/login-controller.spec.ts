@@ -1,4 +1,4 @@
-import { AuthenticationModel } from '@/domain/usecases/account/authentication'
+import { AuthenticationParams } from '@/domain/usecases/account/authentication'
 import { badRequest, created, serverError, unauthorized } from '../../../helpers/http/http-helper'
 import { Authentication, HttpRequest } from './login-controller-protocols'
 import { LoginController } from './login-controller'
@@ -18,7 +18,7 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string| null> {
+    async auth (authentication: AuthenticationParams): Promise<string| null> {
       return new Promise(resolve => resolve('any_token'))
     }
   }

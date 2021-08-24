@@ -1,11 +1,11 @@
 import { HttpRequest } from '../../../protocols/http'
 import {
   AddAccount,
-  AddAccountModel,
+  AddAccountParams,
   AccountModel,
   Validation,
   Authentication,
-  AuthenticationModel
+  AuthenticationParams
 } from './signup-controller-protocols'
 import { MissingParamError, EmailInUseError } from '../../../errors'
 import { SignUpController } from './signup-controller'
@@ -47,7 +47,7 @@ const makeValidation = (): Validation => {
 
 const makeAuthenticationStub = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string| null> {
+    async auth (authentication: AuthenticationParams): Promise<string| null> {
       return new Promise(resolve => resolve('any_token'))
     }
   }
@@ -56,7 +56,7 @@ const makeAuthenticationStub = (): Authentication => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async add (account: AddAccountParams): Promise<AccountModel> {
       return new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
