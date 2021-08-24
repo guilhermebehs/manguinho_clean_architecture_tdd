@@ -10,6 +10,7 @@ export class SaveSurveyResultController implements Controller {
     try {
       const { surveyId } = httpRequest.params
       const { answer } = httpRequest.body
+      const { accountId } = httpRequest
 
       const survey = await this.loadSurveyById.loadById(surveyId)
       if (survey) {
@@ -22,7 +23,7 @@ export class SaveSurveyResultController implements Controller {
       }
       const surveyResult = await this.saveSurveyResult.save(
         {
-          accountId: httpRequest.accountId ?? '',
+          accountId: accountId as string,
           answer,
           surveyId,
           date: new Date()
