@@ -1,4 +1,5 @@
-import { noContent, ok, serverError } from './../../../helpers/http/http-helper'
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { mockLoadSurveys } from '@/presentation/tests/mock-survey'
 import { SurveyModel, LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
 import Mockdate from 'mockdate'
@@ -33,17 +34,8 @@ const makeFakeSurveys = (): SurveyModel[] => ([
   }
 ])
 
-const makeLoadSurveys = (): LoadSurveys => {
-  class LoadSurveysStub implements LoadSurveys {
-    async load (): Promise<SurveyModel[]> {
-      return new Promise(resolve => resolve(makeFakeSurveys()))
-    }
-  }
-  return new LoadSurveysStub()
-}
-
 const makeSut = (): SutTypes => {
-  const loadSurveysStub = makeLoadSurveys()
+  const loadSurveysStub = mockLoadSurveys()
   const sut = new LoadSurveysController(loadSurveysStub)
   return { sut, loadSurveysStub }
 }
