@@ -1,4 +1,4 @@
-import schemas from '.'
+import schemas from './schemas'
 import paths from './paths'
 import components from './components'
 
