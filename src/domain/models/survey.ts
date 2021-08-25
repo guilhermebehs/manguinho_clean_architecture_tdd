@@ -1,7 +1,7 @@
-export type SurveyAnswerModel = {
-  image?: string
-  answer: string
-}
+ type SurveyAnswerModel = {
+   image?: string
+   answer: string
+ }
 
 export type SurveyModel = {
   id: string
