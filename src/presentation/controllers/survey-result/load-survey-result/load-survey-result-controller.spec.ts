@@ -5,6 +5,7 @@ import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-hel
 import { mockLoadSurveyResult } from '@/presentation/tests/mock-survey-result'
 import { HttpRequest, mockLoadSurveyById, LoadSurveyById, LoadSurveyResult } from './load-survey-result-controller-protocols'
 import { LoadSurveyResultController } from './load-survey-result-controller'
+import Mockdate from 'mockdate'
 
 type SutTypes = {
   sut: LoadSurveyResultController
@@ -26,6 +27,12 @@ const makeSut = (): SutTypes => {
 }
 
 describe('LoadSurveyResult Controller', () => {
+  beforeAll(() => {
+    Mockdate.set(new Date())
+  })
+  afterAll(() => {
+    Mockdate.reset()
+  })
   test('Should call LoadSurveyById with correct value', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
