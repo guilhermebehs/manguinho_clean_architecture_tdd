@@ -9,7 +9,7 @@ type SutTypes ={
   loadSurveysStub: LoadSurveys
 }
 
-const makeFakeSurveys = (): SurveyModel[] => ([
+const mockSurveys = (): SurveyModel[] => ([
   {
     id: 'any_id',
     question: 'any_question',
@@ -56,7 +56,7 @@ describe('LoadSurveys Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({})
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()))
+    expect(httpResponse).toEqual(ok(mockSurveys()))
   })
   test('Should return 204 with LoadSurveys returns empty', async () => {
     const { sut, loadSurveysStub } = makeSut()
