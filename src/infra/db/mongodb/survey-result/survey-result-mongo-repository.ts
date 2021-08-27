@@ -179,7 +179,12 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
           date: '$date'
         },
         answers: {
-          $push: '$answer'
+          $push: {
+            image: '$answer.image',
+            answer: '$answer.answer',
+            count: '$answer.count',
+            percent: '$answer.percent'
+          }
         }
       })
       .project({
@@ -190,7 +195,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         answers: '$answers'
       })
       .build()
-    const surveyResult = await await surveyResultCollection.aggregate(query).toArray()
+    const surveyResult = await surveyResultCollection.aggregate(query).toArray()
     return surveyResult?.length ? surveyResult[0] : null
   }
 }
