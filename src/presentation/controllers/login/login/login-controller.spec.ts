@@ -2,7 +2,7 @@ import { mockAuthentication } from '@/presentation/tests'
 import { badRequest, created, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { mockValidation } from '@/validation/tests'
 
-import { Authentication, HttpRequest } from './login-controller-protocols'
+import { Authentication } from './login-controller-protocols'
 import { LoginController } from './login-controller'
 import { Validation } from '../signup/signup-controller-protocols'
 
@@ -11,11 +11,9 @@ type SutTypes ={
   authenticationStub: Authentication
   validationStub: Validation
 }
-const mockRequest = (): HttpRequest => ({
-  body: {
-    email: 'any_email@mail.com',
-    password: 'any_password'
-  }
+const mockRequest = (): LoginController.Request => ({
+  email: 'any_email@mail.com',
+  password: 'any_password'
 })
 
 const makeSut = (): SutTypes => {
@@ -60,6 +58,6 @@ describe('Login Controller', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest)
   })
 })

@@ -3,7 +3,7 @@ import { throwError } from '@/domain/tests'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { mockLoadSurveyResult } from '@/presentation/tests/mock-survey-result'
-import { HttpRequest, mockLoadSurveyById, LoadSurveyById, LoadSurveyResult } from './load-survey-result-controller-protocols'
+import { mockLoadSurveyById, LoadSurveyById, LoadSurveyResult } from './load-survey-result-controller-protocols'
 import { LoadSurveyResultController } from './load-survey-result-controller'
 import Mockdate from 'mockdate'
 
@@ -13,11 +13,9 @@ type SutTypes = {
   loadSurveyResultStub: LoadSurveyResult
 }
 
-const mockRequest = (): HttpRequest => ({
+const mockRequest = (): LoadSurveyResultController.Request => ({
   accountId: 'any_id',
-  params: {
-    surveyId: 'any_survey_id'
-  }
+  surveyId: 'any_survey_id'
 })
 
 const makeSut = (): SutTypes => {

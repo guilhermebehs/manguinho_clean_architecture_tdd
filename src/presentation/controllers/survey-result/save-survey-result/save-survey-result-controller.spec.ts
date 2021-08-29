@@ -3,7 +3,6 @@ import { mockSurveyResultModel } from '@/domain/tests'
 import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
 import {
-  HttpRequest,
   LoadSurveyById,
   SaveSurveyResult
 } from './save-survey-result-controller-protocols'
@@ -16,14 +15,10 @@ type SutTypes ={
   saveSurveyResultStub: SaveSurveyResult
 }
 
-const mockRequest = (): HttpRequest => (
+const mockRequest = (): SaveSurveyResultController.Request => (
   {
-    params: {
-      surveyId: 'any_survey_id'
-    },
-    body: {
-      answer: 'any_answer'
-    },
+    surveyId: 'any_survey_id',
+    answer: 'any_answer',
     accountId: 'any_account_id'
   }
 )
@@ -57,18 +52,19 @@ describe('SaveSurveyResult Controller', () => {
   test('Should return 500 if LoadSurveyById throws', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockImplementationOnce(() => { throw new Error() })
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle({
+      surveyId: 'any_survey_id',
+      answer: 'any_answer',
+      accountId: 'any_id'
+    })
     expect(httpResponse).toEqual(serverError(new Error()))
   })
   test('Should return 403 with an invalid answer is provided', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({
-      params: {
-        surveyId: 'any_survey_id'
-      },
-      body: {
-        answer: 'wrong_answer'
-      }
+      surveyId: 'any_survey_id',
+      answer: 'wrong_answer',
+      accountId: 'any_id'
     })
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
@@ -86,7 +82,13 @@ describe('SaveSurveyResult Controller', () => {
   test('Should return 500 if SaveSurveyResult throws', async () => {
     const { sut, saveSurveyResultStub } = makeSut()
     jest.spyOn(saveSurveyResultStub, 'save').mockImplementationOnce(() => { throw new Error() })
-    const httpResponse = await sut.handle({})
+    const httpResponse = await sut.handle(
+      {
+        surveyId: 'any_survey_id',
+        answer: 'any_answer',
+        accountId: 'any_id'
+      }
+    )
     expect(httpResponse).toEqual(serverError(new Error()))
   })
   test('Should return 200 on on success', async () => {

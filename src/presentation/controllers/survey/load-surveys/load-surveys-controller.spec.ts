@@ -1,6 +1,6 @@
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockLoadSurveys } from '@/presentation/tests/mock-survey'
-import { SurveyModel, LoadSurveys, HttpRequest } from './load-surveys-controller-protocols'
+import { SurveyModel, LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
 import Mockdate from 'mockdate'
 
@@ -9,7 +9,10 @@ type SutTypes ={
   loadSurveysStub: LoadSurveys
 }
 
-const mockRequest = (): HttpRequest => ({ accountId: 'any_id' })
+const mockRequest = (): LoadSurveysController.Request =>
+  ({
+    accountId: 'any_id'
+  })
 
 const mockSurveys = (): SurveyModel[] => ([
   {
