@@ -83,7 +83,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, encrypterStub } = makeSut()
     const generateSpy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.auth(mockAuthenticationParams())
-    await expect(generateSpy).toBeCalledWith('any_id')
+    await expect(generateSpy).toBeCalledWith('61297c80a916f6f81cd61f75')
   })
   test('Should throw if Encrypt throws', async () => {
     const { sut, encrypterStub } = makeSut()
@@ -102,7 +102,7 @@ describe('DbAuthentication UseCase', () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
     const updateSpy = jest.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
     await sut.auth(mockAuthenticationParams())
-    expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token')
+    expect(updateSpy).toHaveBeenCalledWith('61297c80a916f6f81cd61f75', 'any_token')
   })
   test('Should throw if UpdateAccessTokenRepository throws', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
