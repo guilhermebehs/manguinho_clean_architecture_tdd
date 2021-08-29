@@ -1,6 +1,6 @@
 {
   "name": "curso_manguinho",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "description": "NodeJS Rest Api using TDD, Clean Architecture and Typescript",
   "main": "index.js",
   "scripts": {
