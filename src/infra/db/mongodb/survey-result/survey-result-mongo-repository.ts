@@ -4,6 +4,7 @@ import { LoadSurveyResultRepository } from '@/data/protocols/db/survey-result/lo
 import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
 import { QueryBuilder, MongoHelper } from '../helpers'
 import { ObjectId } from 'mongodb'
+import round from 'mongo-round'
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository, LoadSurveyResultRepository {
   async save (data: SaveSurveyResultParams): Promise<void> {
@@ -23,7 +24,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
     })
   }
 
-  async loadBySurveyId (surveyId: string): Promise<SurveyResultModel> {
+  async loadBySurveyIdAndAccountId (surveyId: string, accountId: string): Promise<SurveyResultModel> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
     const query = new QueryBuilder()
       .match({
@@ -61,6 +62,11 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         },
         count: {
           $sum: 1
+        },
+        currentAccountAnswer: {
+          $push: {
+            $cond: [{ $eq: ['$data.accountId', accountId] }, '$data.answer', '$invalid']
+          }
         }
       })
       .project({
@@ -162,8 +168,8 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
         answer: {
           answer: '$_id.answer',
           image: '$_id.image',
-          count: '$count',
-          percent: '$percent',
+          count: round('$count'),
+          percent: round('$percent'),
           isCurrentAccountAnswer: {
             $eq: ['$isCurrentAccountAnswerCount', 1]
           }
@@ -179,12 +185,7 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
           date: '$date'
         },
         answers: {
-          $push: {
-            image: '$answer.image',
-            answer: '$answer.answer',
-            count: '$answer.count',
-            percent: '$answer.percent'
-          }
+          $push: '$answer'
         }
       })
       .project({
