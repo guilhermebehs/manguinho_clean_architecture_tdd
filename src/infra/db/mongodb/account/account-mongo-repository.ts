@@ -12,7 +12,7 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
     await accountCollection.update({ _id: id }, { $set: { accessToken: token } })
   }
 
-  async loadByToken (accessToken: string, role?: string): Promise<AccountModel | null> {
+  async loadByToken (accessToken: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const result = await accountCollection.findOne({
       accessToken,
@@ -20,6 +20,10 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
         { role },
         { role: 'admin' }
       ]
+    }, {
+      projection: {
+        _id: 1
+      }
     })
 
     return result && MongoHelper.map(result)
