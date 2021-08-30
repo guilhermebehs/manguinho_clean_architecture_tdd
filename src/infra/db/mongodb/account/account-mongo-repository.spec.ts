@@ -35,13 +35,25 @@ describe('Account Mongo Repository', () => {
       expect(account).toBeTruthy()
       expect(account?.id).toBeTruthy()
       expect(account?.name).toBe('any_name')
-      expect(account?.email).toBe('any_email@mail.com')
       expect(account?.password).toBe('any_password')
     })
     test('Should return null if loadByEmail fails', async () => {
       const sut = makeSut()
       const account = await sut.loadByEmail('any_email@mail.com')
       expect(account).toBeFalsy()
+    })
+  })
+  describe('checkByEmail()', () => {
+    test('Should return true if email is valid', async () => {
+      const sut = makeSut()
+      await accountCollection.insertOne(mockAddAccountParams())
+      const exists = await sut.checkByEmail('any_email@mail.com')
+      expect(exists).toBe(true)
+    })
+    test('Should return false if email is not valid', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkByEmail('any_email@mail.com')
+      expect(exists).toBe(false)
     })
   })
   describe('updateAccessToken()', () => {
