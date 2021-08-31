@@ -94,7 +94,7 @@ describe('Survey Mongo Repository', () => {
       expect(survey).toBeTruthy()
       expect(survey?.id).toBeTruthy()
     })
-    test('Should not load survey on empty list', async () => {
+    test('Should return null if survey does not exists', async () => {
       const sut = makeSut()
       const survey = await sut.loadById('612d20c9bc6177492e26f7e1')
       expect(survey).toBeFalsy()
@@ -121,6 +121,33 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut()
       const surveyExists = await sut.checkById('612d20c9bc6177492e26f7e1')
       expect(surveyExists).toBe(false)
+    })
+  })
+  describe('loadAnswers()', () => {
+    test('Should load answers on success', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer'
+          },
+          {
+            image: 'other_image',
+            answer: 'other_answer'
+          }
+        ],
+        date: new Date()
+      })
+      const id = res.ops[0]._id
+      const sut = makeSut()
+      const answers = await sut.loadAnswers(id)
+      expect(answers).toEqual(['any_answer', 'other_answer'])
+    })
+    test('Should return empty array if survey does not exists', async () => {
+      const sut = makeSut()
+      const answers = await sut.loadAnswers('612d20c9bc6177492e26f7e1')
+      expect(answers).toEqual([])
     })
   })
 })
