@@ -37,6 +37,7 @@ describe('SurveyResult GraphQL', () => {
     accountCollection = await MongoHelper.getCollection('accounts')
     surveyCollection = await MongoHelper.getCollection('surveys')
     await accountCollection.deleteMany({})
+    await surveyCollection.deleteMany({})
   })
   afterAll(async () => {
     await MongoHelper.disconnect()
@@ -115,6 +116,60 @@ describe('SurveyResult GraphQL', () => {
       })
       expect(res.data).toBeFalsy()
       expect(res.errors[0].message).toBe('Access denied')
+    })
+  })
+  describe('SaveSurveyResult Mutation', () => {
+    const saveSurveyResultQuery = gql`
+      mutation saveSurveyResultQuery($surveyId: String!, $answer: String!){
+        saveSurveyResult(surveyId: $surveyId, answer: $answer){
+              question
+              answers{
+                answer
+                count
+                percent
+                isCurrentAccountAnswer
+              }
+              date
+          }
+      }
+    `
+    test('Should return survey result', async () => {
+      const accessToken = await mockAccessToken()
+      const now = new Date()
+      const surveyRes = await surveyCollection.insertMany([{
+        question: 'any question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer'
+          }
+        ],
+        date: now
+      }])
+      const { mutate } = createTestClient({
+        apolloServer,
+        extendMockRequest: {
+          headers: {
+            'x-access-token': accessToken
+          }
+        }
+      })
+      const res: any = await mutate(saveSurveyResultQuery, {
+        variables: {
+          surveyId: surveyRes.ops[0]._id.toString(),
+          answer: 'any_answer'
+        }
+      })
+      expect(res.data.saveSurveyResult.question).toBe('any question')
+      expect(res.data.saveSurveyResult.date).toBe(now.toISOString())
+      expect(res.data.saveSurveyResult.answers).toEqual([
+        {
+          answer: 'any_answer',
+          count: 1,
+          percent: 100,
+          isCurrentAccountAnswer: true
+        }
+      ])
     })
   })
 })

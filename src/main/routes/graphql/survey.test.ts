@@ -37,6 +37,7 @@ describe('Surveys GraphQL', () => {
     accountCollection = await MongoHelper.getCollection('accounts')
     surveyCollection = await MongoHelper.getCollection('surveys')
     await accountCollection.deleteMany({})
+    await surveyCollection.deleteMany({})
   })
   afterAll(async () => {
     await MongoHelper.disconnect()

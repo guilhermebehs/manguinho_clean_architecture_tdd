@@ -3,8 +3,8 @@ import { adaptResolver } from '@/main/adapters/apollo-server-resolver-adapter'
 
 export default {
   Query: {
-    surveys: async () =>
-      adaptResolver(makeLoadSurveysController())
+    surveys: async (parent: any, args: any, context: any) =>
+      adaptResolver(makeLoadSurveysController(), args, context)
   }
 
 }
